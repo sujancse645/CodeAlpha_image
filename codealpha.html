@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Image Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #0f172a;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* ================= HERO ================= */
+        .hero {
+            height: 100vh;
+            background: url("https://images.unsplash.com/photo-1501785888041-af3ef285b470") center/cover fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+        }
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            margin-top: 20px;
+            font-size: 18px;
+            opacity: 0.8;
+        }
+
+        /* ================= FILTER ================= */
+        .filter-container {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .filter-container button {
+            padding: 12px 25px;
+            margin: 8px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            color: white;
+            transition: 0.4s;
+        }
+
+        .filter-container button:hover,
+        .filter-container button.active {
+            background: #38bdf8;
+            transform: scale(1.1);
+        }
+
+        /* ================= GALLERY ================= */
+        .gallery {
+            column-count: 3;
+            column-gap: 20px;
+            padding: 40px;
+        }
+
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: 0.6s ease;
+        }
+
+        .gallery-item.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            border-radius: 15px;
+            transition: 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-item::after {
+            content: "View Image";
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            font-weight: 600;
+            transition: 0.4s;
+        }
+
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+
+        /* ================= LIGHTBOX ================= */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .lightbox img {
+            width: 80%;
+            max-width: 1000px;
+            border-radius: 15px;
+            animation: zoom 0.4s ease;
+        }
+
+        @keyframes zoom {
+            from {
+                transform: scale(0.7);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .lightbox span {
+            position: absolute;
+            top: 30px;
+            right: 50px;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 50px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .prev {
+            left: 40px;
+        }
+
+        .next {
+            right: 40px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #111827;
+            margin-top: 50px;
+            font-size: 14px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media(max-width:1000px) {
+            .gallery {
+                column-count: 2;
+            }
+        }
+
+        @media(max-width:600px) {
+            .gallery {
+                column-count: 1;
+            }
+
+            .hero h1 {
+                font-size: 35px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Luxury Image Gallery</h1>
+            <p>30+ Premium Images | Smooth Animations | Modern UI</p>
+        </div>
+    </section>
+
+    <div class="filter-container">
+        <button class="active" onclick="filterGallery('all')">All</button>
+        <button onclick="filterGallery('nature')">Nature</button>
+        <button onclick="filterGallery('city')">City</button>
+        <button onclick="filterGallery('animals')">Animals</button>
+    </div>
+
+    <div class="gallery">
+
+        <!-- 10 Nature -->
+        <div class="gallery-item nature"><img
+                src="https://wonderfulengineering.com/wp-content/uploads/2016/01/nature-wallpapers-8.jpg"></div>
+        <div class="gallery-item nature"><img
+                src="https://tse4.mm.bing.net/th/id/OIP._Fx3L11OwExRkIFwtwFPPAHaEo?pid=Api&P=0&h=180"></div>
+        <div class="gallery-item nature"><img src="https://wallpaperset.com/w/full/1/6/4/125537.jpg"></div>
+        <div class="gallery-item nature"><img
+                src="http://www.pixelstalk.net/wp-content/uploads/2016/08/Nature-wallpapers-Full-HD-backgroud.jpg">
+        </div>
+        <div class="gallery-item nature"><img
+                src="https://tse2.mm.bing.net/th/id/OIP.SsxUWu1Dls-7058hDjaBEwHaE8?pid=Api&P=0&h=180"></div>
+        <div class="gallery-item nature"><img
+                src="https://tse2.mm.bing.net/th/id/OIP.hqIsI3_quCq01416NfAK1AHaEK?pid=Api&P=0&h=180"></div>
+        <div class="gallery-item nature"><img
+                src="https://tse4.mm.bing.net/th/id/OIP.QQxSjt0d4ui-hJftcq_ILAHaE8?pid=Api&P=0&h=180"></div>
+        <div class="gallery-item nature"><img
+                src="https://wallpapers.com/images/featured/landscape-293chzhp3r67ag4a.jpg"></div>
+        <div class="gallery-item nature"><img
+                src="https://tse3.mm.bing.net/th/id/OIP.9tQGXXNr_qiNEp4F1sMMUQHaFj?pid=Api&P=0&h=180"></div>
+
+
+        <!-- 10 City -->
+        <div class="gallery-item city"><img
+                src="https://tse4.mm.bing.net/th/id/OIP.heugITkaBNmsKE8myaDIxAHaE8?pid=Api&P=0&h=180"></div>
+        <div class="gallery-item city"><img
+                src="https://tse1.mm.bing.net/th/id/OIP.hsJb5FMCLIZht7RZ6JpBVgHaEK?pid=Api&P=0&h=180"></div>
+        <div class="gallery-item city"><img
+                src="https://tse2.mm.bing.net/th/id/OIP.QsKZHd3jGO504joa0jU9fAHaEo?pid=Api&P=0&h=180"></div>
+        <div class="gallery-item city"><img
+                src="https://tse4.mm.bing.net/th/id/OIP.EGneFD4pC9V7aoo_eNKd1QHaEK?pid=Api&P=0&h=180"></div>
+        <div class="gallery-item city"><img
+                src="https://tse4.mm.bing.net/th/id/OIP.ovs6Pk4cOzSgaWbDMhsZdwHaEq?pid=Api&P=0&h=180"></div>
+        <div class="gallery-item city"><img
+                src="https://tse4.mm.bing.net/th/id/OIP.Nv_A0Ru6z-TuNFbzLPvMiwHaEo?pid=Api&P=0&h=180"></div>
+        <div class="gallery-item city"><img
+                src="https://tse1.mm.bing.net/th/id/OIP.7CfYnjjSQXQxoi-ugksB5QHaEK?pid=Api&P=0&h=180"></div>
+        <div class="gallery-item city"><img
+                src="https://tse3.mm.bing.net/th/id/OIP.yDb4V5Tt8AFgO9ZaV-FaeAHaEo?pid=Api&P=0&h=180"></div>
+
+        <!-- 10 Animals -->
+        <div class="gallery-item animals"><img
+                src="https://tse4.mm.bing.net/th/id/OIP.YVXrhh04C3BY0HhXmyw-GQHaEK?pid=Api&P=0&h=180"></div>
+        <div class="gallery-item animals"><img
+                src="https://cdn.pixabay.com/photo/2018/02/18/13/10/nature-3162233_1280.jpg"></div>
+        <div class="gallery-item animals"><img
+                src="https://tse1.mm.bing.net/th/id/OIP.aPK33_beAzFTJne4zM9X2wHaEK?pid=Api&P=0&h=180"></div>
+        <div class="gallery-item animals"><img src="https://wallpaperaccess.com/full/1191744.jpg"></div>
+        <div class="gallery-item animals"><img
+                src="https://tse4.mm.bing.net/th/id/OIP.TxG5Z9_bGVvJxGOk2N25rgHaEo?pid=Api&P=0&h=180"></div>
+        <div class="gallery-item animals"><img src="https://images2.alphacoders.com/109/1096602.jpg"></div>
+        <div class="gallery-item animals"><img
+                src="https://cdn.pixabay.com/photo/2017/08/07/00/07/fox-2597803_1280.jpg"></div>
+        <div class="gallery-item animals"><img
+                src="https://tse4.mm.bing.net/th/id/OIP.1qjVNM93gpWmEJHUZQVihAHaE8?pid=Api&P=0&h=180"></div>
+
+
+    </div>
+
+    <div class="lightbox" id="lightbox">
+        <span onclick="closeLightbox()">&times;</span>
+        <button class="nav-btn prev" onclick="changeSlide(-1)">❮</button>
+        <img id="lightbox-img">
+        <button class="nav-btn next" onclick="changeSlide(1)">❯</button>
+    </div>
+
+    <footer>
+        © 2026 Luxury Gallery | Internship Premium Project
+    </footer>
+
+    <script>
+        let images = document.querySelectorAll(".gallery-item img");
+        let lightbox = document.getElementById("lightbox");
+        let lightboxImg = document.getElementById("lightbox-img");
+        let currentIndex = 0;
+
+        /* Scroll Reveal */
+        window.addEventListener("scroll", () => {
+            document.querySelectorAll(".gallery-item").forEach(item => {
+                let position = item.getBoundingClientRect().top;
+                let screenHeight = window.innerHeight;
+                if (position < screenHeight - 100) {
+                    item.classList.add("show");
+                }
+            });
+        });
+
+        /* Lightbox */
+        images.forEach((img, index) => {
+            img.addEventListener("click", () => {
+                lightbox.style.display = "flex";
+                lightboxImg.src = img.src;
+                currentIndex = index;
+            });
+        });
+
+        function closeLightbox() {
+            lightbox.style.display = "none";
+        }
+
+        function changeSlide(direction) {
+            currentIndex += direction;
+            if (currentIndex < 0) currentIndex = images.length - 1;
+            if (currentIndex >= images.length) currentIndex = 0;
+            lightboxImg.src = images[currentIndex].src;
+        }
+
+        document.addEventListener("keydown", (e) => {
+            if (lightbox.style.display === "flex") {
+                if (e.key === "ArrowRight") changeSlide(1);
+                if (e.key === "ArrowLeft") changeSlide(-1);
+                if (e.key === "Escape") closeLightbox();
+            }
+        });
+
+        /* Filter */
+        function filterGallery(category) {
+            let items = document.querySelectorAll(".gallery-item");
+            let buttons = document.querySelectorAll(".filter-container button");
+            buttons.forEach(btn => btn.classList.remove("active"));
+            event.target.classList.add("active");
+            items.forEach(item => {
+                if (category === "all" || item.classList.contains(category)) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>
